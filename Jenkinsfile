@@ -37,9 +37,10 @@ pipeline {
 
         stage('Security') {
             steps {
-                sh 'snyk test'
+                sh 'npx snyk test'
             }
         }
+
 
         stage('Deploy') {
             steps {
