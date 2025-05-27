@@ -54,16 +54,19 @@ pipeline {
         }
 
         stage('Release') {
-            steps {
-                echo "Tagging the release in Git as ${GIT_TAG}"
-                sh '''
-                    git config --global user.email "jenkins@example.com"
-                    git config --global user.name "Jenkins CI"
-                    git tag -a ${GIT_TAG} -m "Automated release from Jenkins"
-                    git push origin ${GIT_TAG}
-                '''
-            }
+    steps {
+        echo "Tagging the release in Git as v1.0.21"
+        withCredentials([usernamePassword(credentialsId: 'github-jenkins-token', usernameVariable: 'GIT_USERNAME', passwordVariable: 'GIT_PASSWORD')]) {
+            sh '''
+                git config --global user.email jenkins@example.com
+                git config --global user.name "Jenkins CI"
+                git tag -a v1.0.21 -m 'Automated release from Jenkins'
+                git push https://$GIT_USERNAME:$GIT_PASSWORD@github.com/nirmalsubashanaD/mern-devops-pipeline.git v1.0.21
+            '''
         }
+    }
+}
+
 
         stage('Monitoring') {
             steps {
