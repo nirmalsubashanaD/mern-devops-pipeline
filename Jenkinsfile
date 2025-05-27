@@ -26,11 +26,12 @@ pipeline {
             steps {
                 sh '''
                     sonar-scanner \
-                      -Dsonar.projectKey=your_project_key \
-                      -Dsonar.organization=your_organization \
+                      -Dsonar.projectKey=nirmalsubashanaD \
+                      -Dsonar.organization=nirmalsubashanad \
                       -Dsonar.host.url=https://sonarcloud.io \
                       -Dsonar.login=$SONAR_TOKEN
-                '''
+                 '''
+
             }
         }
 
