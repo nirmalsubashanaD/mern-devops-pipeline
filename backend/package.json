@@ -1,1 +1,29 @@
-{"name":"backend","version":"1.0.0","main":"server.js","scripts":{"test":"jest"},"devDependencies":{"jest":"^30.0.0-beta.3","supertest":"^7.1.1"},"dependencies":{"express":"^5.1.0"}}
+{
+    "name": "backend",
+    "version": "1.0.0",
+    "main": "server.js",
+    "scripts": {
+      "test": "jest --coverage"
+    },
+    "devDependencies": {
+      "jest": "^30.0.0-beta.3",
+      "jest-junit": "^16.0.0",
+      "supertest": "^7.1.1"
+    },
+    "dependencies": {
+      "express": "^5.1.0"
+    },
+    "jest": {
+      "reporters": [
+        "default",
+        [
+          "jest-junit",
+          {
+            "outputDirectory": "test-results",
+            "outputName": "results.xml"
+          }
+        ]
+      ]
+    }
+  }
+  
