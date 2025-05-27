@@ -1,18 +1,37 @@
 pipeline {
     agent any
 
+    triggers {
+        // Polls Git repository every 15 minutes (replace with webhook for production)
+        pollSCM('H/15 * * * *')
+    }
+
     environment {
         PATH = "/usr/local/bin:${env.PATH}"
         SONAR_TOKEN = credentials('SONAR_TOKEN')
-        IMAGE_TAG = "mern-task-manager:${BUILD_NUMBER}"
-        GIT_TAG = "v1.0.${BUILD_NUMBER}"
+
+        // Derive version from package.json dynamically
+        PACKAGE_VERSION = sh(script: "node -p \"require('./backend/package.json').version\"", returnStdout: true).trim()
+        IMAGE_TAG = "mern-task-manager:${PACKAGE_VERSION}-${BUILD_NUMBER}"
+        GIT_TAG = "v${PACKAGE_VERSION}-${BUILD_NUMBER}"
     }
 
     stages {
         stage('Build') {
             steps {
                 echo "Building Docker image with tag: ${IMAGE_TAG}"
-                sh "docker build -t ${IMAGE_TAG} ./backend"
+
+                // Print version info and clean logs using timestamps
+                sh '''
+                    echo "===== VERSION INFO ====="
+                    echo "Package Version: $PACKAGE_VERSION"
+                    echo "Build Number: $BUILD_NUMBER"
+                    echo "Image Tag: $IMAGE_TAG"
+                    echo "========================="
+
+                    echo "Starting Docker build..."
+                    docker build -t $IMAGE_TAG ./backend 2>&1 | tee build.log
+                '''
             }
         }
 
