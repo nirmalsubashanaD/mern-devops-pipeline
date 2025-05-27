@@ -21,7 +21,7 @@ pipeline {
                 dir('backend') {
                     sh 'npm install'
                     sh 'npx jest --coverage'
-                    junit 'coverage/*.xml'
+                    junit 'test-results/results.xml'
                 }
             }
         }
