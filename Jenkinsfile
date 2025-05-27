@@ -20,7 +20,8 @@ pipeline {
             steps {
                 dir('backend') {
                     sh 'npm install'
-                    sh 'npx jest'
+                    sh 'npx jest --coverage'
+                    junit 'coverage/*.xml'
                 }
             }
         }
