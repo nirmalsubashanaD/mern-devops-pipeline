@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         PATH = "/usr/local/bin:${env.PATH}"
+        SONAR_TOKEN = credentials('SONAR_TOKEN')
     }
 
     stages {
@@ -23,7 +24,13 @@ pipeline {
 
         stage('Code Quality') {
             steps {
-                sh 'sonar-scanner'
+                sh '''
+                    sonar-scanner \
+                      -Dsonar.projectKey=your_project_key \
+                      -Dsonar.organization=your_organization \
+                      -Dsonar.host.url=https://sonarcloud.io \
+                      -Dsonar.login=$SONAR_TOKEN
+                '''
             }
         }
 
