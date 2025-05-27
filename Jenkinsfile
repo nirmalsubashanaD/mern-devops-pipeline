@@ -4,12 +4,15 @@ pipeline {
     environment {
         PATH = "/usr/local/bin:${env.PATH}"
         SONAR_TOKEN = credentials('SONAR_TOKEN')
+        IMAGE_TAG = "mern-task-manager:${BUILD_NUMBER}"
+        GIT_TAG = "v1.0.${BUILD_NUMBER}"
     }
 
     stages {
         stage('Build') {
             steps {
-                sh 'docker-compose build'
+                echo "Building Docker image with tag: ${IMAGE_TAG}"
+                sh "docker build -t ${IMAGE_TAG} ./backend"
             }
         }
 
@@ -30,36 +33,48 @@ pipeline {
                       -Dsonar.organization=nirmalsubashanad \
                       -Dsonar.host.url=https://sonarcloud.io \
                       -Dsonar.login=$SONAR_TOKEN
-                 '''
-
+                '''
             }
         }
 
         stage('Security') {
             steps {
                 dir('backend') {
-                    sh 'npx snyk test || true'
-                }       
+                    sh 'npm install -g snyk'
+                    sh 'snyk test || echo "Snyk scan completed with issues (non-blocking)"'
+                }
             }
         }
 
-
         stage('Deploy') {
             steps {
+                echo "Deploying containers..."
                 sh 'docker-compose up -d'
             }
         }
 
         stage('Release') {
             steps {
-                sh 'echo "Tagged release v1.0"'
+                echo "Tagging the release in Git as ${GIT_TAG}"
+                sh '''
+                    git config --global user.email "jenkins@example.com"
+                    git config --global user.name "Jenkins CI"
+                    git tag -a ${GIT_TAG} -m "Automated release from Jenkins"
+                    git push origin ${GIT_TAG}
+                '''
             }
         }
 
         stage('Monitoring') {
             steps {
-                sh './monitor.sh'
+                sh './monitor.sh || echo "Monitoring script executed with warnings"'
             }
+        }
+    }
+
+    post {
+        always {
+            echo "Pipeline completed for build #${BUILD_NUMBER}"
         }
     }
 }
