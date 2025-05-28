@@ -13,8 +13,11 @@
 // module.exports = app;
 
 const express = require('express');
+const cors = require('cors'); // ✅ Add this line
+
 const app = express();
 
+app.use(cors()); // ✅ Allow all origins
 app.use(express.json());
 
 // Simulated in-memory task DB (for testing)
