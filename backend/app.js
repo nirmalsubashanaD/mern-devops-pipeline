@@ -27,10 +27,6 @@ app.post('/api/tasks', (req, res) => {
   res.status(201).json(task);
 });
 
-app.get('/api/tasks', (req, res) => {
-  res.json(tasks);
-});
-
 app.get('/api/tasks/:id', (req, res) => {
   const task = tasks.find(t => t._id == req.params.id);
   if (!task) return res.status(404).send('Not found');
