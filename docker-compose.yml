@@ -1,20 +1,32 @@
 version: '3.8'
+
 services:
   backend:
+    container_name: mern-backend
     build: ./backend
     ports:
-      - "5002:5000"
+      - "5002:5000"  # Host:Container
     environment:
       - MONGO_URI=mongodb://mongo:27017/tasks
     depends_on:
       - mongo
+    restart: unless-stopped
 
   frontend:
+    container_name: mern-frontend
     build: ./frontend
     ports:
-      - "3000:3000"
+      - "3001:3000"  # Changed from 3000:3000 to avoid local port conflict
+    restart: unless-stopped
 
   mongo:
+    container_name: mern-mongo
     image: mongo
     ports:
-      - "27019:27017"
+      - "27019:27017"  # Changed from 27018:27017 to avoid conflict
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo-data:
