@@ -60,8 +60,23 @@ pipeline {
                 echo "Stopping and removing previous containers (if any)..."
                 sh 'docker-compose down || true'
 
+                echo "Force remove existing frontend container if it exists..."
+                sh 'docker rm -f mern-frontend || true'
+
                 echo "Deploying containers..."
                 sh 'docker-compose up -d --build'
+            }
+        }
+
+        stage('Run Frontend') {
+            steps {
+                dir('frontend') {
+                    echo "Installing frontend dependencies..."
+                    sh 'npm ci'
+
+                    echo "Starting React development server..."
+                    sh 'npm start &'
+                }
             }
         }
 
