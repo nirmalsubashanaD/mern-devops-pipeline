@@ -3,36 +3,35 @@
     "version": "1.0.0",
     "main": "server.js",
     "scripts": {
-      "test": "jest --coverage"
+        "test": "jest --coverage"
     },
     "devDependencies": {
-      "jest": "^30.0.0-beta.3",
-      "jest-junit": "^16.0.0",
-      "supertest": "^7.1.1"
+        "jest": "^30.0.0-beta.3",
+        "jest-junit": "^16.0.0",
+        "supertest": "^7.1.1"
     },
     "dependencies": {
-      "express": "^5.1.0"
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0"
     },
     "jest": {
-  "reporters": [
-    "default",
-    [
-      "jest-junit",
-      {
-        "outputDirectory": "test-results",
-        "outputName": "results.xml"
-      }
-    ]
-  ],
-  "coverageThreshold": {
-    "global": {
-      "branches": 50,
-      "functions": 100,
-      "lines": 100,
-      "statements": 90
+        "reporters": [
+            "default",
+            [
+                "jest-junit",
+                {
+                    "outputDirectory": "test-results",
+                    "outputName": "results.xml"
+                }
+            ]
+        ],
+        "coverageThreshold": {
+            "global": {
+                "branches": 50,
+                "functions": 100,
+                "lines": 100,
+                "statements": 90
+            }
+        }
     }
-  }
 }
-
-  }
-  
