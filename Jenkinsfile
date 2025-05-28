@@ -17,14 +17,15 @@ pipeline {
         }
 
         stage('Test') {
-    steps {
-        dir('backend') {
-            sh 'npm install'
-            sh 'npx jest --coverage --runInBand --bail' // <-- fail-fast
-            junit 'test-results/results.xml'
+            steps {
+                dir('backend') {
+                    sh 'npm ci' // cleaner & faster than `npm install` for CI
+                    sh 'npx jest --coverage --runInBand --bail' // fail-fast testing
+                    junit 'test-results/results.xml'
+                }
+            }
         }
-    }
-}
+
         stage('Code Quality') {
             steps {
                 sh '''
@@ -40,7 +41,7 @@ pipeline {
         stage('Security') {
             steps {
                 dir('backend') {
-                    sh 'npm install snyk --save-dev'
+                    sh 'npm install snyk --no-save'
                     sh './node_modules/.bin/snyk test || echo "Snyk scan completed with issues (non-blocking)"'
                 }
             }
@@ -48,8 +49,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
+                echo "Stopping and removing previous containers (if any)..."
+                sh 'docker-compose down || true'
+
                 echo "Deploying containers..."
-                sh 'docker-compose up -d'
+                sh 'docker-compose up -d --build'
             }
         }
 
