@@ -19,7 +19,8 @@ pipeline {
         stage('Test') {
             steps {
                 dir('backend') {
-                    sh 'npm ci'
+                    sh 'npm ci'  // cleaner & faster than npm install in CI
+                    // Run Jest tests with coverage, output JUnit XML for Jenkins to pick up
                     sh 'npx jest --coverage --runInBand --bail --testResultsProcessor=jest-junit || true'
                     junit 'test-results/results.xml'
                 }
@@ -39,7 +40,7 @@ pipeline {
                         '''
                     } catch (err) {
                         echo "SonarQube scan failed but build will continue: ${err}"
-                        currentBuild.result = 'UNSTABLE'
+                        currentBuild.result = 'UNSTABLE' // mark unstable but not fail
                     }
                 }
             }
@@ -61,18 +62,6 @@ pipeline {
 
                 echo "Deploying containers..."
                 sh 'docker-compose up -d --build'
-            }
-        }
-
-        stage('Run Frontend') {
-            steps {
-                dir('frontend') {
-                    echo "Installing frontend dependencies..."
-                    sh 'npm ci'
-
-                    echo "Starting React development server..."
-                    sh 'npm start &'
-                }
             }
         }
 
