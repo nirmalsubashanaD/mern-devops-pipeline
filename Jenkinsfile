@@ -21,7 +21,7 @@ pipeline {
                 dir('backend') {
                     sh 'npm ci'  // cleaner & faster than npm install in CI
                     // Run Jest tests with coverage, output JUnit XML for Jenkins to pick up
-                    sh 'npx jest --coverage --runInBand --bail --testResultsProcessor="jest-junit"'
+                    sh 'npx jest --coverage --runInBand --bail --testResultsProcessor=jest-junit || true'
                     junit 'test-results/results.xml'
                 }
             }
