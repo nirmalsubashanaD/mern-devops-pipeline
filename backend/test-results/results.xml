@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="3" failures="0" errors="0" time="0.306">
+  <testsuite name="Task API Integration" errors="0" failures="0" skipped="0" timestamp="2025-05-28T01:39:26" time="0.277" tests="3">
+    <testcase classname="Task API Integration should create a new task" name="Task API Integration should create a new task" time="0.02">
+    </testcase>
+    <testcase classname="Task API Integration should fetch the created task" name="Task API Integration should fetch the created task" time="0.002">
+    </testcase>
+    <testcase classname="Task API Integration should delete the created task" name="Task API Integration should delete the created task" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>

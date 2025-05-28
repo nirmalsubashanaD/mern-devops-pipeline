@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1748396366622" clover="3.2.0">
+  <project timestamp="1748396366622" name="All files">
+    <metrics statements="19" coveredstatements="19" conditionals="4" coveredconditionals="2" methods="5" coveredmethods="5" elements="28" coveredelements="26" complexity="0" loc="19" ncloc="19" packages="1" files="1" classes="1"/>
+    <file name="app.js" path="/Users/nirmal/Documents/Uni/Deakin/3Y/3YT1/SIT223/7.3HD/mern-devops-pipeline1/backend/app.js">
+      <metrics statements="19" coveredstatements="19" conditionals="4" coveredconditionals="2" methods="5" coveredmethods="5"/>
+      <line num="15" count="1" type="stmt"/>
+      <line num="16" count="1" type="stmt"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="21" count="1" type="stmt"/>
+      <line num="22" count="1" type="stmt"/>
+      <line num="24" count="1" type="stmt"/>
+      <line num="25" count="1" type="stmt"/>
+      <line num="26" count="1" type="stmt"/>
+      <line num="27" count="1" type="stmt"/>
+      <line num="30" count="1" type="stmt"/>
+      <line num="31" count="1" type="stmt"/>
+      <line num="32" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="33" count="1" type="stmt"/>
+      <line num="36" count="1" type="stmt"/>
+      <line num="37" count="1" type="stmt"/>
+      <line num="38" count="1" type="cond" truecount="1" falsecount="1"/>
+      <line num="39" count="1" type="stmt"/>
+      <line num="40" count="1" type="stmt"/>
+      <line num="43" count="1" type="stmt"/>
+    </file>
+  </project>
+</coverage>

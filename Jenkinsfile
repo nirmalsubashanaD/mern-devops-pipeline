@@ -25,8 +25,6 @@ pipeline {
         }
     }
 }
-
-
         stage('Code Quality') {
             steps {
                 sh '''
