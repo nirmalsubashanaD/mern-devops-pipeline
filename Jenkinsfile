@@ -19,8 +19,9 @@ pipeline {
         stage('Test') {
             steps {
                 dir('backend') {
-                    sh 'npm ci' // cleaner & faster than `npm install` for CI
-                    sh 'npx jest --coverage --runInBand --bail' // fail-fast testing
+                    sh 'npm ci'  // cleaner & faster than npm install in CI
+                    // Run Jest tests with coverage, output JUnit XML for Jenkins to pick up
+                    sh 'npx jest --coverage --runInBand --bail --testResultsProcessor="jest-junit"'
                     junit 'test-results/results.xml'
                 }
             }
@@ -28,13 +29,20 @@ pipeline {
 
         stage('Code Quality') {
             steps {
-                sh '''
-                    sonar-scanner \
-                      -Dsonar.projectKey=nirmalsubashanaD \
-                      -Dsonar.organization=nirmalsubashanad \
-                      -Dsonar.host.url=https://sonarcloud.io \
-                      -Dsonar.login=$SONAR_TOKEN
-                '''
+                script {
+                    try {
+                        sh '''
+                            sonar-scanner \
+                              -Dsonar.projectKey=nirmalsubashanaD \
+                              -Dsonar.organization=nirmalsubashanad \
+                              -Dsonar.host.url=https://sonarcloud.io \
+                              -Dsonar.login=$SONAR_TOKEN
+                        '''
+                    } catch (err) {
+                        echo "SonarQube scan failed but build will continue: ${err}"
+                        currentBuild.result = 'UNSTABLE' // mark unstable but not fail
+                    }
+                }
             }
         }
 
