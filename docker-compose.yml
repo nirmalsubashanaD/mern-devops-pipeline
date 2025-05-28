@@ -8,12 +8,13 @@ services:
       - MONGO_URI=mongodb://mongo:27017/tasks
     depends_on:
       - mongo
+
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
-  mongo:
-  image: mongo
-  ports:
-    - "27019:27017"
 
+  mongo:
+    image: mongo
+    ports:
+      - "27019:27017"
