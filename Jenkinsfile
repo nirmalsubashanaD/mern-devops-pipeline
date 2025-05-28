@@ -17,14 +17,15 @@ pipeline {
         }
 
         stage('Test') {
-            steps {
-                dir('backend') {
-                    sh 'npm install'
-                    sh 'npx jest --coverage'
-                    junit 'test-results/results.xml'
-                }
-            }
+    steps {
+        dir('backend') {
+            sh 'npm install'
+            sh 'npx jest --coverage --runInBand --bail' // <-- fail-fast
+            junit 'test-results/results.xml'
         }
+    }
+}
+
 
         stage('Code Quality') {
             steps {
